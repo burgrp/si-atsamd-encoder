@@ -1,3 +1,5 @@
+namespace atsamd::encoder {
+
 class Encoder {
   int pinA;
   int pinB;
@@ -47,7 +49,7 @@ public:
         int in = target::PORT.IN.getIN();
         int a = (in >> pinA) & 1;
         int b = (in >> pinB) & 1;
-        changed(a == b ? 1 : -1);        
+        changed(a == b ? 1 : -1);
       }
       cancelNoise = true;
       target::EIC.INTFLAG.setEXTINT(extInA, true);
@@ -60,5 +62,6 @@ public:
   }
 
   virtual void changed(int steps) = 0;
-
 };
+
+} // namespace atsamd::encoder
