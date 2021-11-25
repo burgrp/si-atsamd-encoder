@@ -1,0 +1,20 @@
+{
+  "name": "@si15@si-atsamd-encoder",
+  "version": "1.0.0",
+  "description": "Quadrature encoder library",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/burgrp/si-atsamd-encoder.git"
+  },
+  "author": "",
+  "license": "CC BY",
+  "bugs": {
+    "url": "https://github.com/burgrp/si-atsamd-encoder/issues"
+  },
+  "silicon": {
+    "sources": [
+      "encoder.cpp"
+    ]
+  }
+}
