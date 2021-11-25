@@ -5,7 +5,8 @@ class Encoder {
   int pinB;
   int extInA;
   int extInB;
-  bool cancelNoise;
+  bool cancelNoiseA;
+  bool cancelNoiseB;
 
 public:
   void init(int pinA, int pinB, int extInA, int extInB) {
@@ -45,18 +46,26 @@ public:
 
   void interruptHandlerEIC() {
     if (target::EIC.INTFLAG.getEXTINT(extInA)) {
-      if (!cancelNoise) {
+      if (!cancelNoiseA) {
+        int in = target::PORT.IN.getIN();
+        int a = (in >> pinA) & 1;
+        int b = (in >> pinB) & 1;
+        changed(a == b ? -1 : 1);
+      }
+      cancelNoiseA = true;
+      cancelNoiseB = false;
+      target::EIC.INTFLAG.setEXTINT(extInA, true);
+    }
+
+    if (target::EIC.INTFLAG.getEXTINT(extInB)) {
+      if (!cancelNoiseB) {
         int in = target::PORT.IN.getIN();
         int a = (in >> pinA) & 1;
         int b = (in >> pinB) & 1;
         changed(a == b ? 1 : -1);
       }
-      cancelNoise = true;
-      target::EIC.INTFLAG.setEXTINT(extInA, true);
-    }
-
-    if (target::EIC.INTFLAG.getEXTINT(extInB)) {
-      cancelNoise = false;
+      cancelNoiseB = true;
+      cancelNoiseA = false;
       target::EIC.INTFLAG.setEXTINT(extInB, true);
     }
   }
