@@ -9,6 +9,8 @@ class Encoder {
   bool cancelNoiseB;
 
 public:
+  int position;
+
   void init(int pinA, int pinB, int extInA, int extInB) {
 
     this->pinA = pinA;
@@ -50,7 +52,8 @@ public:
         int in = target::PORT.IN.getIN();
         int a = (in >> pinA) & 1;
         int b = (in >> pinB) & 1;
-        changed(a == b ? -1 : 1);
+        position += a == b ? -1 : 1;
+        changed(position);
       }
       cancelNoiseA = true;
       cancelNoiseB = false;
@@ -62,7 +65,8 @@ public:
         int in = target::PORT.IN.getIN();
         int a = (in >> pinA) & 1;
         int b = (in >> pinB) & 1;
-        changed(a == b ? 1 : -1);
+        position += a == b ? 1 : -1;
+        changed(position);
       }
       cancelNoiseB = true;
       cancelNoiseA = false;
@@ -70,7 +74,9 @@ public:
     }
   }
 
-  virtual void changed(int steps) = 0;
+  virtual void changed(int position) {
+  }
+
 };
 
 } // namespace atsamd::encoder
