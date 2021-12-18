@@ -1,6 +1,6 @@
 {
   "name": "@si14/si-atsamd-encoder",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Quadrature encoder library",
   "main": "index.js",
   "repository": {
