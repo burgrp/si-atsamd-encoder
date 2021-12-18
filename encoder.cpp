@@ -28,6 +28,12 @@ public:
       target::PORT.PMUX[pinA >> 1].setPMUXE(target::port::PMUX::PMUXE::A);
     }
 
+    if (pinB & 1) {
+      target::PORT.PMUX[pinB >> 1].setPMUXO(target::port::PMUX::PMUXO::A);
+    } else {
+      target::PORT.PMUX[pinB >> 1].setPMUXE(target::port::PMUX::PMUXE::A);
+    }
+
     target::GCLK.CLKCTRL = target::GCLK.CLKCTRL.bare()
                                .setID(target::gclk::CLKCTRL::ID::EIC)
                                .setGEN(target::gclk::CLKCTRL::GEN::GCLK0)
